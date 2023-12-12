@@ -3,36 +3,42 @@ import AllData from "../data/data.json";
 import { useDispatch, useSelector } from "react-redux";
 import { addOrder } from "../appReduser/OrderSlice";
 import { addwatchList } from "../appReduser/WatcListSlice";
+import Crud from "./Crud";
 
 export function StockData() {
   const { orderList } = useSelector((state) => state.order);
-  const { watchListData } = useSelector((state) => state.watch)
-  const [orderListId, setOrderListId] = useState([])
-  const [watchListId, setWatchListId] = useState([])
-
+  const { watchListData } = useSelector((state) => state.watch);
+  const [orderListId, setOrderListId] = useState([]);
+  const [watchListId, setWatchListId] = useState([]);
+  const [modal, setModal] = useState(false);
 
   const dispatch = useDispatch();
 
   const handleAdd = (data) => {
-      dispatch(addOrder(data));
-    }
+    dispatch(addOrder(data));
+  };
 
   const WatchListHandle = (data) => {
     dispatch(addwatchList(data));
   };
 
-
   useEffect(() => {
-    let orderId = orderList.map((item) => item.id)
-    setOrderListId(orderId)
-    let watchId = watchListData.map((item) => item.id)
-    setWatchListId(watchId)
-
+    let orderId = orderList.map((item) => item.id);
+    setOrderListId(orderId);
+    let watchId = watchListData.map((item) => item.id);
+    setWatchListId(watchId);
   }, [orderList, watchListData]);
 
-  return (
-    <div>
+  const modalHandler = () => {
+    setModal(true);
+  };
 
+  const closeModal = () => {
+    setModal(false);
+  };
+
+  return (
+    <>
       {AllData.map((data, i) => (
         <div
           key={i}
@@ -48,28 +54,48 @@ export function StockData() {
               className={
                 data.stockValueChange.includes("-") > 0
                   ? "text-red-500"
-                  : "text-green-500"}>
+                  : "text-green-500"
+              }
+            >
               {data.stockValueChange}
             </p>
           </div>
           <div className="opacity-0 group-hover:opacity-100 absolute top-6 inset-2/4 flex justify-center space-x-6 text-gray-600 text-20">
             <button
-              className="text-black" 
+              className="text-black"
               onClick={() => handleAdd(data)}
             >
-              <i className={`fas fa-shopping-cart ${orderListId.includes(data.id) ? "text-red-500" : "text-black"}`}></i>
+              <i
+                className={`fas fa-shopping-cart ${
+                  orderListId.includes(data.id) ? "text-red-500" : "text-black"
+                }`}
+              ></i>
             </button>
 
             <button
               className="text-black "
-              onClick={() => {WatchListHandle(data);}}
+              onClick={() => {
+                WatchListHandle(data);
+              }}
             >
-              <i className={`fas fa-heart ${watchListId.includes(data.id) ? "text-red-500" : "text-black"}`}></i>
+              <i
+                className={`fas fa-heart ${
+                  watchListId.includes(data.id) ? "text-red-500" : "text-black"
+                }`}
+              ></i>
             </button>
           </div>
         </div>
       ))}
-    </div>
-
+      {/* {modal &&<div>
+        <button
+          className="bg-sky-600 hover:bg-sky-700 px-3 py-1 m-4 text-white rounded-md font-semibold"
+          onClick={modalHandler}
+        >
+          Generate Barcode
+        </button>
+        <Crud onClose={closeModal} />
+      </div>} */}
+    </>
   );
 }

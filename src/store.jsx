@@ -1,14 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./appReduser/CounterSlice";
 import  addStockData  from "./appReduser/StockSlice";
 import orderSlice from "./appReduser/OrderSlice";
 import watchListSlice from "./appReduser/WatcListSlice";
+import CrudSlice from "./appReduser/CrudSlice";
 
 export const store = configureStore({
   reducer: {
-    counter:counterReducer,
     stockData: addStockData,
     order: orderSlice,
-    watch: watchListSlice
+    watch: watchListSlice,
+    crud:CrudSlice
   },
 });

@@ -5,7 +5,7 @@ import NavBar from './component/Navbar';
 import StockDataList from './pages/StockDataList';
 import WatchList from './pages/WatchList';
 import Order from './pages/Order';
-import { Counter } from './component/Counter';
+import Crud from './component/Crud';
 
 
 
@@ -20,7 +20,6 @@ function App() {
             <Route path="/order" element={<Order />} />
           </Routes>
         </BrowserRouter>
-        {/* <Counter/> */}
       
     </>
   );
